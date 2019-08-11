@@ -46,7 +46,7 @@ android {
 
 dependencies {
 
-
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.41")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.core:core-ktx:1.0.2")
@@ -67,6 +67,14 @@ dependencies {
     implementation("com.airbnb.android:epoxy-paging:3.7.0")
     implementation("com.airbnb.android:epoxy-databinding:3.7.0")
     kapt("com.airbnb.android:epoxy-processor:3.7.0")
+
+    // MvRx
+    implementation("com.airbnb.android:mvrx:1.0.2")
+    implementation("com.airbnb.android:mvrx-testing:1.0.2")
+
+    // AssistedInject
+    implementation("com.squareup.inject:assisted-inject-annotations-dagger2:0.4.0")
+    kapt("com.squareup.inject:assisted-inject-processor-dagger2:0.4.0")
 
     // Moshi
     implementation("com.squareup.moshi:moshi:1.8.0")

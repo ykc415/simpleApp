@@ -7,10 +7,6 @@
         <variable
             name="comment"
             type="com.example.simpleapp.data.entity.Comment" />
-
-        <variable
-            name="viewmodel"
-            type="com.example.simpleapp.ui.detail.DetailViewModel" />
     </data>
 
     <LinearLayout

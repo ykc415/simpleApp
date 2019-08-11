@@ -16,7 +16,9 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlin.annotation.AnnotationRetention.RUNTIME
 
-@Module(includes = [ApplicationModuleBinds::class])
+@Module(includes = [
+    ApplicationModuleBinds::class
+])
 object ApplicationModule {
 
     @Qualifier
@@ -57,8 +59,6 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideIoDispatcher() = Dispatchers.IO
-
-
 
 }
 

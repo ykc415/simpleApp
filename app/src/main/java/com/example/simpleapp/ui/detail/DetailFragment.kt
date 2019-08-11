@@ -1,5 +1,6 @@
 package com.example.simpleapp.ui.detail
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,53 +8,44 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.airbnb.mvrx.BaseMvRxFragment
+import com.airbnb.mvrx.MvRx
+import com.airbnb.mvrx.fragmentViewModel
 import com.example.simpleapp.R
-import com.example.simpleapp.databinding.FragmentDetailBinding
-import com.example.simpleapp.ui.page.PostsAdapter
-import dagger.android.support.DaggerFragment
+import com.example.simpleapp.base.BaseFragment
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class DetailFragment: DaggerFragment() {
-
-    private lateinit var viewDataBinding: FragmentDetailBinding
-
-    private val args: DetailFragmentArgs by navArgs()
-
-    private lateinit var listAdapter: DetailAdapter
+class DetailFragment: BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: DetailViewModel.Factory
 
-    private val viewModel by viewModels<DetailViewModel> { viewModelFactory }
+    private val viewModel: DetailViewModel by fragmentViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_detail, container, false)
-        viewDataBinding = FragmentDetailBinding.bind(view).apply {
-            viewmodel = viewModel
-        }
-        viewDataBinding.lifecycleOwner = this.viewLifecycleOwner
-
-        viewModel.start(args.postId)
-
+        val view = inflater.inflate(R.layout.fragment_default, container, false)
         setHasOptionsMenu(true)
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         setupListAdapter()
     }
 
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
     private fun setupListAdapter() {
-        val viewModel = viewDataBinding.viewmodel
-        if (viewModel != null) {
-            listAdapter = DetailAdapter(viewModel)
-            viewDataBinding.postsList.adapter = listAdapter
-        }
+
+    }
+
+    override fun invalidate() {
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -65,6 +57,15 @@ class DetailFragment: DaggerFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 //        inflater.inflate(R.menu.taskdetail_fragment_menu, menu)
+    }
+
+    companion object {
+        fun newInstance(userId: Long): DetailFragment =
+            DetailFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(MvRx.KEY_ARG, null)
+                }
+            }
     }
 
 }

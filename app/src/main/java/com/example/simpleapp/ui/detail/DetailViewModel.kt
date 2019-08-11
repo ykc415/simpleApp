@@ -1,30 +1,28 @@
 package com.example.simpleapp.ui.detail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.simpleapp.data.entity.Post
-import javax.inject.Inject
+import com.airbnb.mvrx.FragmentViewModelContext
+import com.airbnb.mvrx.MvRxViewModelFactory
+import com.airbnb.mvrx.ViewModelContext
+import com.example.simpleapp.base.MvRxViewModel
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 
-class DetailViewModel @Inject constructor(): ViewModel() {
+class DetailViewModel @AssistedInject constructor(
+    @Assisted state: DetailState
+): MvRxViewModel<DetailState>(state) {
 
 
-    private val _items = MutableLiveData<List<Post>>().apply { value = emptyList() }
-    val items: LiveData<List<Post>> = _items
 
-    private val _dataLoading = MutableLiveData<Boolean>()
-    val dataLoading: LiveData<Boolean> = _dataLoading
 
-    
-    fun start(id: Int) {
-
+    @AssistedInject.Factory
+    interface Factory {
+        fun create(state: DetailState): DetailViewModel
     }
 
-
-    fun loadPosts(forceUpdate: Boolean) {
-    }
-
-    fun refresh() {
-        loadPosts(true)
+    companion object : MvRxViewModelFactory<DetailViewModel, DetailState> {
+        override fun create(viewModelContext: ViewModelContext, state: DetailState): DetailViewModel? {
+            val fragment = (viewModelContext as FragmentViewModelContext).fragment<DetailFragment>()
+            return fragment.viewModelFactory.create(state)
+        }
     }
 }

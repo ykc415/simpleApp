@@ -1,5 +1,6 @@
 package com.example.simpleapp.ui.page
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -7,44 +8,43 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.airbnb.mvrx.MvRx
+import com.airbnb.mvrx.fragmentViewModel
 import com.example.simpleapp.R
-import com.example.simpleapp.databinding.FragmentPageBinding
+import com.example.simpleapp.base.BaseFragment
 import com.example.simpleapp.util.toast
-import dagger.android.support.DaggerFragment
 import javax.inject.Inject
+import dagger.android.support.AndroidSupportInjection
 
-class PageFragment : DaggerFragment() {
 
+class PageFragment : BaseFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: PageViewModel.Factory
 
-    private lateinit var viewDataBinding: FragmentPageBinding
-    private lateinit var listAdapter: PostsAdapter
-
-
-    private val viewModel by viewModels<PageViewModel> { viewModelFactory }
+    private val viewModel: PageViewModel by fragmentViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewDataBinding = FragmentPageBinding.inflate(inflater, container, false).apply {
-            viewmodel = viewModel
-        }
+        val view = inflater.inflate(R.layout.fragment_default, container, false)
         setHasOptionsMenu(true)
-        return viewDataBinding.root
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         setupListAdapter()
+    }
 
+    override fun invalidate() {
 
-        // Always reloading data for simplicity. Real apps should only do this on first load and
-        // when navigating back to this destination. TODO: https://issuetracker.google.com/79672220
-        viewModel.loadPosts(true)
+    }
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,11 +71,16 @@ class PageFragment : DaggerFragment() {
     }
 
     private fun setupListAdapter() {
-        val viewModel = viewDataBinding.viewmodel
-        if (viewModel != null) {
-            listAdapter = PostsAdapter(viewModel)
-            viewDataBinding.postsList.adapter = listAdapter
-        }
+
+    }
+
+    companion object {
+        fun newInstance(userId: Long): PageFragment =
+            PageFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(MvRx.KEY_ARG, null)
+                }
+            }
     }
 
 }

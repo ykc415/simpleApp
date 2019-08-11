@@ -7,10 +7,6 @@
         <variable
             name="post"
             type="com.example.simpleapp.data.entity.Post" />
-
-        <variable
-            name="viewmodel"
-            type="com.example.simpleapp.ui.page.PageViewModel" />
     </data>
 
     <LinearLayout
@@ -21,8 +17,7 @@
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:foreground="@drawable/ripple"
-        android:onClick="@{() -> viewmodel.openPost(post.id)}">
+        android:foreground="@drawable/ripple">
 
         <TextView
             android:id="@+id/title"
