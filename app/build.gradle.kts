@@ -36,6 +36,7 @@ android {
     kapt.correctErrorTypes = true
     lintOptions.isAbortOnError = false
     dataBinding.isEnabled = true
+    dataBinding.isEnabledForTests = true
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -45,8 +46,8 @@ android {
 
 dependencies {
 
-    implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
 
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.41")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.core:core-ktx:1.0.2")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
@@ -57,15 +58,15 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-reactivestreams:2.0.0")
     kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
 
-    implementation("androidx.fragment:fragment-testing:1.2.0-alpha02")
-    implementation("androidx.fragment:fragment:1.2.0-alpha02")
-    implementation("androidx.fragment:fragment-ktx:1.2.0-alpha02")
+    implementation("androidx.fragment:fragment-testing:1.1.0-rc01")
+    implementation("androidx.fragment:fragment:1.1.0-rc01")
+    implementation("androidx.fragment:fragment-ktx:1.1.0-rc01")
 
-    // Paging
-    implementation("androidx.paging:paging-common:2.1.0")
-    implementation("androidx.paging:paging-runtime:2.1.0")
-    implementation("androidx.paging:paging-runtime-ktx:2.1.0")
-    implementation("androidx.paging:paging-rxjava2:2.1.0")
+    // Epoxy
+    implementation("com.airbnb.android:epoxy:3.7.0")
+    implementation("com.airbnb.android:epoxy-paging:3.7.0")
+    implementation("com.airbnb.android:epoxy-databinding:3.7.0")
+    kapt("com.airbnb.android:epoxy-processor:3.7.0")
 
     // Moshi
     implementation("com.squareup.moshi:moshi:1.8.0")

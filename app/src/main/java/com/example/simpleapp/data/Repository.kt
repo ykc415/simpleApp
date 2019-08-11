@@ -1,8 +1,10 @@
 package com.example.simpleapp.data
 
+import com.example.simpleapp.data.entity.Post
+
 interface Repository {
 
-    suspend fun getPost()
+    suspend fun getPosts(): Result<List<Post>>
 
     suspend fun getPostDetail()
 

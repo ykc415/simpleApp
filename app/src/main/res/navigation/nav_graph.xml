@@ -3,13 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/pageFragment">
+    app:startDestination="@+id/pageFragment">
 
     <fragment
         android:id="@+id/pageFragment"
         android:name="com.example.simpleapp.ui.page.PageFragment"
         android:label="Page Title">
 
+        <action
+            android:id="@+id/action_page_to_detail"
+            app:destination="@+id/detailFragment"/>
     </fragment>
 
     <fragment
@@ -17,6 +20,13 @@
         android:name="com.example.simpleapp.ui.detail.DetailFragment"
         android:label="Detail View">
 
+        <argument
+            android:name="postId"
+            app:argType="integer"/>
+
+        <action
+            android:id="@+id/action_detail_to_page"
+            app:destination="@+id/pageFragment"/>
     </fragment>
 
 </navigation>

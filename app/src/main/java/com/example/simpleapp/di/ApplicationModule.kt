@@ -32,7 +32,7 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideRemoteDataSource(): DataSource {
-        return SimpleRemoteDataSource
+        return SimpleRemoteDataSource()
     }
 
     @JvmStatic

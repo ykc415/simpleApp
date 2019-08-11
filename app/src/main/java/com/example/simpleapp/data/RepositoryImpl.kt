@@ -1,20 +1,32 @@
 package com.example.simpleapp.data
 
-class RepositoryImpl : Repository {
+import com.example.simpleapp.data.entity.Post
+import com.example.simpleapp.di.ApplicationModule.LocalDataSource
+import com.example.simpleapp.di.ApplicationModule.RemoteDataSource
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-    override suspend fun getPost() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class RepositoryImpl @Inject constructor(
+    @RemoteDataSource private val remoteDataSource: DataSource,
+    @LocalDataSource private val localDataSource: DataSource,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : Repository {
+
+    override suspend fun getPosts(): Result<List<Post>> {
+        return withContext(ioDispatcher) {
+            remoteDataSource.getPosts()
+        }
+
     }
 
     override suspend fun getPostDetail() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun editPost(title: String?, body: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override suspend fun deletePost() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
