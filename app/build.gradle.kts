@@ -1,11 +1,10 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.appspector.sdk")
 }
 
 androidExtensions {
@@ -53,14 +52,30 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
 
-    // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
-    implementation("androidx.lifecycle:lifecycle-reactivestreams:2.0.0")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
+    implementation("com.appspector:android-sdk:1.+")
+    debugImplementation("com.appspector:android-sdk:1.+")
+    releaseImplementation("com.appspector:android-sdk-noop:1.+")
 
-    implementation("androidx.fragment:fragment-testing:1.1.0-rc01")
-    implementation("androidx.fragment:fragment:1.1.0-rc01")
-    implementation("androidx.fragment:fragment-ktx:1.1.0-rc01")
+    // MaterialDialog
+    implementation("com.afollestad.material-dialogs:core:3.1.0")
+    implementation("com.afollestad.material-dialogs:lifecycle:3.1.0")
+
+    // Timber
+    implementation("com.jakewharton.timber:timber:4.7.1")
+
+    // Lifecycle
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03")
+    implementation("androidx.lifecycle:lifecycle-reactivestreams:2.2.0-alpha03")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.2.0-alpha03")
+
+    // Fragment
+    implementation("androidx.fragment:fragment-testing:1.2.0-alpha02")
+    implementation("androidx.fragment:fragment:1.2.0-alpha02")
+    implementation("androidx.fragment:fragment-ktx:1.2.0-alpha02")
+
+    // Paging
+    implementation("android.arch.paging:runtime:1.0.1")
+    implementation("android.arch.paging:rxjava2:1.0.1")
 
     // Epoxy
     implementation("com.airbnb.android:epoxy:3.7.0")
@@ -78,11 +93,13 @@ dependencies {
 
     // Moshi
     implementation("com.squareup.moshi:moshi:1.8.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.8.0")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.8.0")
 
     // Okhttp
     implementation("com.squareup.okhttp3:okhttp:4.0.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
+    implementation("com.github.ihsanbal:LoggingInterceptor:3.0.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.6.0")
@@ -103,8 +120,8 @@ dependencies {
 
 
     // Navigation
-    implementation("androidx.navigation:navigation-ui-ktx:2.1.0-beta02")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.1.0-beta02")
+    implementation("androidx.navigation:navigation-ui-ktx:2.2.0-alpha01")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.2.0-alpha01")
 
     // Room
     implementation ("androidx.room:room-runtime:2.1.0")

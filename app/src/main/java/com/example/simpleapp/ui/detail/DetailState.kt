@@ -7,6 +7,11 @@ import com.example.simpleapp.data.entity.Comment
 import com.example.simpleapp.data.entity.Post
 
 data class DetailState(
-    val post: Post,
+    val post: Post? = null,
     val comments: Async<List<Comment>> = Uninitialized
+
 ) : MvRxState
+
+class DeleteFailException: RuntimeException("Fail to Delete")
+
+class EditFailException: RuntimeException("Fail to Edit")

@@ -1,9 +1,11 @@
 package com.example.simpleapp.data.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
 /**
  *      Raw Json
@@ -16,21 +18,25 @@ import androidx.room.PrimaryKey
     "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
 }
  */
-
+@Parcelize
 @Entity(
-    tableName = "comments",
-    foreignKeys = [
-        ForeignKey(
-            entity = Post::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("postId")
-        )]
+    tableName = "comments"
 )
 data class Comment @JvmOverloads constructor(
+
+    @Json(name = "id")
     @PrimaryKey
     @ColumnInfo(name = "id") var id: Int = 0,
+
+    @Json(name = "postId")
     @ColumnInfo(name = "postId") var postId: Int = 0,
+
+    @Json(name = "name")
     @ColumnInfo(name = "name") var name: String = "",
+
+    @Json(name = "email")
     @ColumnInfo(name = "email") var email: String = "",
+
+    @Json(name = "body")
     @ColumnInfo(name = "body") var body: String = ""
-)
+) : Parcelable

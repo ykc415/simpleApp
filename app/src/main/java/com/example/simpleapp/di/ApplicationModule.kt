@@ -1,13 +1,16 @@
 package com.example.simpleapp.di
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Room
-import com.example.simpleapp.data.DataSource
-import com.example.simpleapp.data.Repository
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.simpleapp.data.local.CommentDao
+import com.example.simpleapp.data.local.PostDao
 import com.example.simpleapp.data.local.SimpleDatabase
 import com.example.simpleapp.data.local.SimpleLocalDataSource
+import com.example.simpleapp.data.remote.SimpleApi
 import com.example.simpleapp.data.remote.SimpleRemoteDataSource
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,9 +19,7 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 import kotlin.annotation.AnnotationRetention.RUNTIME
 
-@Module(includes = [
-    ApplicationModuleBinds::class
-])
+@Module
 object ApplicationModule {
 
     @Qualifier
@@ -33,18 +34,21 @@ object ApplicationModule {
     @JvmStatic
     @Singleton
     @Provides
-    fun provideRemoteDataSource(): DataSource {
-        return SimpleRemoteDataSource()
+    fun provideRemoteDataSource(api: SimpleApi, ioDispatcher: CoroutineDispatcher): SimpleRemoteDataSource {
+        return SimpleRemoteDataSource(api, ioDispatcher)
     }
+
+
 
     @JvmStatic
     @Singleton
     @Provides
     fun provideLocalDataSource(
-        database: SimpleDatabase,
+        postDao: PostDao,
+        commentDao: CommentDao,
         ioDispatcher: CoroutineDispatcher
-    ): DataSource {
-        return SimpleLocalDataSource(database.postDao(), ioDispatcher)
+    ): SimpleLocalDataSource {
+        return SimpleLocalDataSource(postDao, commentDao, ioDispatcher)
     }
 
     @JvmStatic
@@ -52,8 +56,29 @@ object ApplicationModule {
     @Provides
     fun provideDataBase(context: Context): SimpleDatabase {
         return Room.databaseBuilder(context.applicationContext, SimpleDatabase::class.java, "simple.db")
+            .addCallback(object: RoomDatabase.Callback() {
+                override fun onCreate(db: SupportSQLiteDatabase) {
+                    super.onCreate(db)
+                    Log.d("Room", "db Created")
+                }
+            })
             .build()
     }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun providePostDao(database: SimpleDatabase): PostDao {
+        return database.postDao()
+    }
+
+    @JvmStatic
+    @Singleton
+    @Provides
+    fun provideCommentDao(database: SimpleDatabase): CommentDao {
+        return database.commentDao()
+    }
+
 
     @JvmStatic
     @Singleton
@@ -63,10 +88,3 @@ object ApplicationModule {
 }
 
 
-@Module
-abstract class ApplicationModuleBinds {
-
-    @Singleton
-    @Binds
-    abstract fun bindRepository(repo: Repository): Repository
-}

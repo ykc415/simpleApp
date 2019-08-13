@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="post"
             type="com.example.simpleapp.data.entity.Post" />
+        <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <LinearLayout
@@ -17,6 +19,7 @@
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:onClick="@{onClick}"
         android:foreground="@drawable/ripple">
 
         <TextView
@@ -33,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/grey"
+            android:maxLines="2"
             tools:text="Secondary line text Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. Nam massa quam."
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:text="@{post.body}" />

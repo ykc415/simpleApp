@@ -18,11 +18,14 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.simpleapp.ui.detail.DetailFragment"
+
         android:label="Detail View">
 
         <argument
-            android:name="postId"
-            app:argType="integer"/>
+            android:name="post"
+            android:defaultValue="@null"
+            app:nullable="true"
+            app:argType="com.example.simpleapp.data.entity.Post"/>
 
         <action
             android:id="@+id/action_detail_to_page"
